@@ -47,4 +47,4 @@ ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 EXPOSE 3000
 
 # Run the script
-CMD ["node", "src/index.js", "--no-sandbox"]
+CMD ["node", "src/index.js"]

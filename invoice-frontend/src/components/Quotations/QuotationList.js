@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 const Quotations = () => {
   const [quotations, setQuotations] = useState([]);
   const downloadPdf = async (filePath) => {
-    const token = 'YOUR_AUTHENTICATION_TOKEN'; // Replace with your actual token
-  
+    const token = localStorage.getItem('token');
     try {
       const response = await fetch(
         `https://invoicegenerator-ud0x.onrender.com/api/download-pdf/${encodeURIComponent(filePath.split('/').pop())}`,
