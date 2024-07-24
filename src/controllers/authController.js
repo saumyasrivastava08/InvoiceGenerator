@@ -17,10 +17,8 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const newUser = await createUser(name, email, hashedPassword);
+   
+    const newUser = await createUser(name, email, password);
 
     const payload = {
       user: {
@@ -38,6 +36,8 @@ exports.register = async (req, res) => {
   }
 };
 
+
+
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -46,25 +46,49 @@ exports.login = async (req, res) => {
   }
 
   try {
-    const user = await getUserByEmail(email);
+    const user = await User.findOne({ email });
     if (!user) {
-      console.log(`User not found with email: ${email}`);
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    console.log(`User found: ${user.email}`);
+    // Log password before comparison
+    console.log('Password provided:', password);
+    console.log('Hashed Password in DB:', user.password);
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      console.log(`Password does not match for user: ${email}`);
-      return res.status(400).json({ message: 'Invalid credentials' });
-    }
+    // Compare the password
+    bcrypt.compare(password, user.password, (err, isMatch) => {
+      if (err) {
+        console.error('Error during bcrypt compare:', err);
+        return res.status(500).send('Server error');
+      }
 
-    const token = jwt.sign({ userId: user._id }, jwtSecret, { expiresIn: '1h' });
+      console.log('Password match:', isMatch);
 
-    res.json({ token });
+      if (!isMatch) {
+        return res.status(400).json({ message: 'Invalid credentials' });
+      }
+
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+
+      jwt.sign(
+        payload,
+        'your_jwt_secret',
+        { expiresIn: '1h' },
+        (err, token) => {
+          if (err) {
+            console.error('Error during JWT sign:', err);
+            return res.status(500).send('Server error');
+          }
+          res.json({ token });
+        }
+      );
+    });
   } catch (err) {
-    console.error('Server error:', err.message);
+    console.error('Error during login:', err);
     res.status(500).send('Server error');
   }
 };

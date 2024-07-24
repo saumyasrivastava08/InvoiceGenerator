@@ -6,11 +6,11 @@ async function getUserByEmail(email) {
 
 
 
-async function createUser(name, email, hashedPassword) {
+async function createUser(name, email, password) {
   const newUser = new User({
     name,
     email,
-    password: hashedPassword,
+    password: password,
   });
 
   await newUser.save();

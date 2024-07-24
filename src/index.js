@@ -1,6 +1,8 @@
 const express = require('express');
 const connectDB = require('./config/db'); // Ensure the path is correct
-const authRoutes = require('./routes/auth'); // Ensure the path is correct
+const authRoutes = require('./routes/auth.js'); // Ensure the path is correct
+const productRoutes = require('./routes/productRoutes.js'); // Import your routes
+
 
 const app = express();
 
@@ -19,6 +21,8 @@ connectDB()
   });
 
   app.use('/api/auth', authRoutes);
+  app.use('/api', productRoutes);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
