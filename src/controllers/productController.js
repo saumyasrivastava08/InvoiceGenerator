@@ -49,7 +49,7 @@ exports.addProducts = async (req, res) => {
       });
   
       // Generate PDF
-      const browser = await puppeteer.launch({  executablePath: '/usr/bin/chromium-browser'});
+      const browser = await puppeteer.launch({  args: ['--no-sandbox', '--disable-setuid-sandbox'], });
       const page = await browser.newPage();
       await page.setContent(html);
       const filename = `Invoice_${Date.now()}.pdf`;
@@ -131,16 +131,30 @@ exports.downloadPDF = async (req, res) => {
       return res.status(404).json({ message: 'Quotation not found' });
     }
 
-    const filePath = quotation.filePath;
+    const filepath = quotation.filePath;
     console.log("File path:", filePath);
-    res.sendFile(filePath, { root: path.resolve(__dirname, '..') }, (err) => {
-      if (err) {
-        console.error('Error sending file:', err);
-        res.status(500).send('Error downloading PDF');
-      } else {
-        console.log('PDF sent successfully');
-      }
-    });
+    // res.sendFile(filePath, { root: path.resolve(__dirname, '..') }, (err) => {
+    //   if (err) {
+    //     console.error('Error sending file:', err);
+    //     res.status(500).send('Error downloading PDF');
+    //   } else {
+    //     console.log('PDF sent successfully');
+    //   }
+    // });
+
+    const absoluteFilePath = path.resolve(filepath); // Get the absolute path
+    if (fs.existsSync(absoluteFilePath)) {
+      res.sendFile(absoluteFilePath, (err) => {
+        if (err) {
+          console.error('Error sending file:', err);
+          res.status(500).send('Error generating PDF');
+        } else {
+          console.log('PDF sent successfully');
+        }
+      });
+    } else {
+      res.status(404).send('File not found');
+    }
   } catch (err) {
     console.error('Error downloading PDF:', err);
     res.status(500).send('Server error');
