@@ -1,6 +1,10 @@
+# Use an official Node.js runtime as a parent image
 FROM node:14
 
-# Install dependencies
+# Create and set the working directory
+WORKDIR /app
+
+# Install Puppeteer dependencies
 RUN apt-get update && apt-get install -y \
   wget \
   ca-certificates \
@@ -20,18 +24,25 @@ RUN apt-get update && apt-get install -y \
   libxshmfence1 \
   libxtst6 \
   libxv1 \
-  libxv1 \
   lsb-release \
   xdg-utils \
   --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
-# Install Puppeteer
-RUN npm install puppeteer
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Add your application files
-COPY . /app
-WORKDIR /app
+# Install application dependencies
+RUN npm install
 
-# Run Puppeteer with --no-sandbox
+# Copy the rest of the application files
+COPY . .
+
+# Set environment variables if needed
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Run the script
 CMD ["node", "your-script.js", "--no-sandbox"]

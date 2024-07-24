@@ -4,6 +4,36 @@ import { Link } from 'react-router-dom';
 
 const Quotations = () => {
   const [quotations, setQuotations] = useState([]);
+  const downloadPdf = async (filePath) => {
+    const token = 'YOUR_AUTHENTICATION_TOKEN'; // Replace with your actual token
+  
+    try {
+      const response = await fetch(
+        `https://invoicegenerator-ud0x.onrender.com/api/download-pdf/${encodeURIComponent(filePath.split('/').pop())}`,
+        {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok.');
+      }
+  
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filePath.split('/').pop();
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchQuotations = async () => {
@@ -27,7 +57,12 @@ const Quotations = () => {
       <ul>
         {quotations.map(quotation => (
           <li key={quotation._id}>
-            <Link to={`/quotation/${quotation._id}`}>{`Invoice ${quotation.date}`}</Link>
+            <Link to={`/quotation/${quotation._id}`}>{`Invoice ${quotation.date}`}</Link> {" "}
+            {quotation.filePath && (
+  <button onClick={() => downloadPdf(quotation.filePath)}>
+    Download PDF
+  </button>
+)}
             {quotation.filePath && (
               <a
                 href={`https://invoicegenerator-ud0x.onrender.com/api/download-pdf/${encodeURIComponent(quotation.filePath.split('/').pop())}`}
