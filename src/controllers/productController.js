@@ -49,7 +49,7 @@ exports.addProducts = async (req, res) => {
       });
   
       // Generate PDF
-      const browser = await puppeteer.launch();
+      const browser = await puppeteer.launch({ headless: 'new' });
       const page = await browser.newPage();
       await page.setContent(html);
       const filename = `Invoice_${Date.now()}.pdf`;
