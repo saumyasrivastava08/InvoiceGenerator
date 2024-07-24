@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './AddProduct.css'; // Import the CSS file
+import { useAuth } from '../../context/AuthContext';
 
 const AddProduct = () => {
+    const { user } = useAuth();
+
   const [products, setProducts] = useState([{ name: '', qty: '', rate: '' }]);
 
   const handleProductChange = (index, e) => {
@@ -21,7 +25,12 @@ const AddProduct = () => {
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
+    if (!user) {
+        alert('You must be logged in to add a product');
+        return;
+      }
     try {
       const token = localStorage.getItem('token');
       await axios.post('https://invoicegenerator-ud0x.onrender.com/api/products', { products }, {
@@ -34,19 +43,19 @@ const AddProduct = () => {
   };
 
   return (
-    <div>
+    <div className="add-product-container">
       <h2>Add Products</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="product-form">
         {products.map((product, index) => (
-          <div key={index}>
-            <input type="text" name="name" value={product.name} onChange={(e) => handleProductChange(index, e)} placeholder="Product Name" required />
-            <input type="number" name="qty" value={product.qty} onChange={(e) => handleProductChange(index, e)} placeholder="Quantity" required />
-            <input type="number" name="rate" value={product.rate} onChange={(e) => handleProductChange(index, e)} placeholder="Rate" required />
-            <button type="button" onClick={() => handleRemoveProduct(index)}>Remove</button>
+          <div key={index} className="product-inputs">
+            <input type="text" name="name" value={product.name} onChange={(e) => handleProductChange(index, e)} placeholder="Product Name" required className="input-field"/>
+            <input type="number" name="qty" value={product.qty} onChange={(e) => handleProductChange(index, e)} placeholder="Quantity" required className="input-field"/>
+            <input type="number" name="rate" value={product.rate} onChange={(e) => handleProductChange(index, e)} placeholder="Rate" required className="input-field"/>
+            <button type="button" onClick={() => handleRemoveProduct(index)} className="remove-button">Remove</button>
           </div>
         ))}
-        <button type="button" onClick={handleAddProduct}>Add Another Product</button>
-        <button type="submit">Submit</button>
+        <button type="button" onClick={handleAddProduct} className="add-button">Add Another Product</button>
+        <button type="submit" className="submit-button">Submit</button>
       </form>
     </div>
   );

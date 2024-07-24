@@ -29,10 +29,11 @@
         <td>{{this.name}}</td>
         <td>{{this.qty}}</td>
         <td>{{this.rate}}</td>
-        <td>{{this.gst}}</td>
       </tr>
       {{/each}}
     </tbody>
-  </table>
+  </table> 
+  <p class="total">Total Price: {{totalPrice}}</p>
+  <p class="total">Total Price with GST: {{totalPriceWithGST}}</p>
 </body>
 </html>

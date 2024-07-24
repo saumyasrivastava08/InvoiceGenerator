@@ -27,7 +27,14 @@ exports.addProducts = async (req, res) => {
       }));
   
       console.log("Product instances with GST:", productInstances);
+      // Calculate total price and total price with GST
+      const totalPrice = productInstances.reduce((total, product) => total + (product.rate * product.qty), 0);
+      const totalPriceWithGST = totalPrice + productInstances.reduce((total, product) => total + product.gst, 0);
   
+      console.log("Total Price:", totalPrice);
+      console.log("Total Price with GST:", totalPriceWithGST);
+  
+
       // Read the HTML template
       const templatePath = path.join(__dirname, '../invoiceTemplate.html');
       const templateHtml = fs.readFileSync(templatePath, 'utf8');
@@ -35,7 +42,10 @@ exports.addProducts = async (req, res) => {
       const html = template({
         date: new Date().toLocaleDateString(),
         userId,
-        products: productInstances
+        products: productInstances,
+
+        totalPrice,
+        totalPriceWithGST
       });
   
       // Generate PDF
