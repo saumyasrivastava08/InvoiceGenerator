@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const QuotationList = () => {
+const Quotations = () => {
   const [quotations, setQuotations] = useState([]);
 
   useEffect(() => {
@@ -28,6 +28,15 @@ const QuotationList = () => {
         {quotations.map(quotation => (
           <li key={quotation._id}>
             <Link to={`/quotation/${quotation._id}`}>{`Invoice ${quotation.date}`}</Link>
+            {quotation.filePath && (
+              <a
+                href={`https://invoicegenerator-ud0x.onrender.com/api/download-pdf/${encodeURIComponent(quotation.filePath.split('/').pop())}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Download PDF
+              </a>
+            )}
           </li>
         ))}
       </ul>
@@ -35,4 +44,4 @@ const QuotationList = () => {
   );
 };
 
-export default QuotationList;
+export default Quotations;

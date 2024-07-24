@@ -27,10 +27,7 @@ const AddProduct = () => {
   const handleSubmit = async (e) => {
 
     e.preventDefault();
-    if (!user) {
-        alert('You must be logged in to add a product');
-        return;
-      }
+   
     try {
       const token = localStorage.getItem('token');
       await axios.post('https://invoicegenerator-ud0x.onrender.com/api/products', { products }, {

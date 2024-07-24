@@ -93,7 +93,7 @@ exports.addProducts = async (req, res) => {
 // Function to list quotations
 exports.listQuotations = async (req, res) => {
   console.log("listQuotations endpoint hit");
-  const userId = req.user.id;
+  const userId = req.user.user.id;
 
   console.log("User ID:", userId);
 
