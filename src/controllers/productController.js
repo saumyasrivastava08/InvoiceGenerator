@@ -49,7 +49,7 @@ exports.addProducts = async (req, res) => {
       });
   
       // Generate PDF
-      const browser = await puppeteer.launch({  args: ['--no-sandbox', '--disable-setuid-sandbox'], });
+      const browser = await puppeteer.launch({    ignoreDefaultArgs: ['--disable-extensions']         });
       const page = await browser.newPage();
       await page.setContent(html);
       const filename = `Invoice_${Date.now()}.pdf`;
@@ -132,7 +132,7 @@ exports.downloadPDF = async (req, res) => {
     }
 
     const filepath = quotation.filePath;
-    console.log("File path:", filePath);
+    console.log("File path:", filepath);
     // res.sendFile(filePath, { root: path.resolve(__dirname, '..') }, (err) => {
     //   if (err) {
     //     console.error('Error sending file:', err);
