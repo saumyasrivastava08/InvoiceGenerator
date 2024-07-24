@@ -20,7 +20,7 @@
         <th>Name</th>
         <th>Quantity</th>
         <th>Rate</th>
-        <th>GST</th>
+        <th>Total</th>
       </tr>
     </thead>
     <tbody>
@@ -29,11 +29,13 @@
         <td>{{this.name}}</td>
         <td>{{this.qty}}</td>
         <td>{{this.rate}}</td>
+        <td>{{this.totalPerProd}}</td>
       </tr>
       {{/each}}
     </tbody>
   </table> 
-  <p class="total">Total Price: {{totalPrice}}</p>
-  <p class="total">Total Price with GST: {{totalPriceWithGST}}</p>
+  <p class="total">Total Price: Rs.{{totalPrice}}</p>
+  <p class="total">GST 18%</p>
+  <p class="total">Grand Total Rs.{{totalPriceWithGST}}</p>
 </body>
 </html>

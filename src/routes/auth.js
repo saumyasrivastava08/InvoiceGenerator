@@ -1,15 +1,14 @@
-
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { register, login } = require('../controllers/authController');
+const { register, login } = require("../controllers/authController");
 
-router.post('/register', (req, res) => {
-  console.log('Register route hit');
+router.post("/register", (req, res) => {
+  console.log("Register route hit");
   register(req, res);
 });
 
-router.post('/login', (req, res) => {
-  console.log('Login route hit');
+router.post("/login", (req, res) => {
+  console.log("Login route hit");
   login(req, res);
 });
 

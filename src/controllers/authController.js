@@ -1,23 +1,23 @@
-const { getUserByEmail, createUser } = require('../services/userServices'); // Adjust path accordingly
-const bcrypt = require('bcryptjs'); // Ensure bcryptjs is imported
-const User = require('../models/User'); // Ensure the correct path to the User model
-const jwt = require('jsonwebtoken');
-
+const { getUserByEmail, createUser } = require("../services/userServices"); // Adjust path accordingly
+const bcrypt = require("bcryptjs"); // Ensure bcryptjs is imported
+const User = require("../models/User"); // Ensure the correct path to the User model
+const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
-    return res.status(400).json({ message: 'Please provide name, email, and password' });
+    return res
+      .status(400)
+      .json({ message: "Please provide name, email, and password" });
   }
 
   try {
     let user = await getUserByEmail(email);
     if (user) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ message: "User already exists" });
     }
 
-   
     const newUser = await createUser(name, email, password);
 
     const payload = {
@@ -26,46 +26,46 @@ exports.register = async (req, res) => {
       },
     };
 
-    jwt.sign(payload, 'your_jwt_secret', { expiresIn: '1h' }, (err, token) => {
+    jwt.sign(payload, "your_jwt_secret", { expiresIn: "1h" }, (err, token) => {
       if (err) throw err;
       res.status(201).json({ token });
     });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).send("Server error");
   }
 };
-
-
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ message: 'Please provide email and password' });
+    return res
+      .status(400)
+      .json({ message: "Please provide email and password" });
   }
 
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
     // Log password before comparison
-    console.log('Password provided:', password);
-    console.log('Hashed Password in DB:', user.password);
+    console.log("Password provided:", password);
+    console.log("Hashed Password in DB:", user.password);
 
     // Compare the password
     bcrypt.compare(password, user.password, (err, isMatch) => {
       if (err) {
-        console.error('Error during bcrypt compare:', err);
-        return res.status(500).send('Server error');
+        console.error("Error during bcrypt compare:", err);
+        return res.status(500).send("Server error");
       }
 
-      console.log('Password match:', isMatch);
+      console.log("Password match:", isMatch);
 
       if (!isMatch) {
-        return res.status(400).json({ message: 'Invalid credentials' });
+        return res.status(400).json({ message: "Invalid credentials" });
       }
 
       const payload = {
@@ -76,19 +76,19 @@ exports.login = async (req, res) => {
 
       jwt.sign(
         payload,
-        'your_jwt_secret',
-        { expiresIn: '1h' },
+        "your_jwt_secret",
+        { expiresIn: "1h" },
         (err, token) => {
           if (err) {
-            console.error('Error during JWT sign:', err);
-            return res.status(500).send('Server error');
+            console.error("Error during JWT sign:", err);
+            return res.status(500).send("Server error");
           }
           res.json({ token });
-        }
+        },
       );
     });
   } catch (err) {
-    console.error('Error during login:', err);
-    res.status(500).send('Server error');
+    console.error("Error during login:", err);
+    res.status(500).send("Server error");
   }
 };

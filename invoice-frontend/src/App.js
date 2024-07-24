@@ -1,12 +1,12 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './components/Auth/Login.js';
-import Register from './components/Auth/Register';
-import AddProduct from './components/Product/ AddProduct.js';
-import QuotationList from './components/Quotations/QuotationList';
-import QuotationDetail from './components/Quotations/ QuotationDetail.js';
-import Navbar from './components/Navbar';
-import { AuthProvider } from './context/AuthContext';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Login from "./components/Auth/Login.js";
+import Register from "./components/Auth/Register";
+import AddProduct from "./components/Product/ AddProduct.js";
+import QuotationList from "./components/Quotations/QuotationList";
+import QuotationDetail from "./components/Quotations/ QuotationDetail.js";
+import Navbar from "./components/Navbar";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (

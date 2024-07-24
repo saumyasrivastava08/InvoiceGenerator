@@ -1,29 +1,28 @@
-
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const QuotationSchema = new mongoose.Schema({
   date: {
     type: Date,
     required: true,
-    default: Date.now
+    default: Date.now,
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    ref: "User",
+    required: true,
   },
   products: [
     {
       name: String,
       qty: Number,
       rate: Number,
-      gst: Number
-    }
+      gst: Number,
+    },
   ],
   filePath: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
-module.exports = mongoose.model('Quotation', QuotationSchema);
+module.exports = mongoose.model("Quotation", QuotationSchema);

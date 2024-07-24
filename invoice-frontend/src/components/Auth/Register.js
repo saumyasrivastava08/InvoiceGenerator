@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './Register.css';
+import React, { useState } from "react";
+import axios from "axios";
+import "./Register.css";
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://invoicegenerator-ud0x.onrender.com/api/auth/register', { name, email, password });
-      window.location.href = '/login';
+      await axios.post(
+        "https://invoicegenerator-ud0x.onrender.com/api/auth/register",
+        { name, email, password },
+      );
+      window.location.href = "/login";
     } catch (err) {
-      setError('Registration failed');
+      setError("Registration failed");
     }
   };
 

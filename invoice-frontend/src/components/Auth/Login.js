@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './Login.css';
+import React, { useState } from "react";
+import axios from "axios";
+import "./Login.css";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://invoicegenerator-ud0x.onrender.com/api/auth/login', { email, password });
-      localStorage.setItem('token', response.data.token);
-      window.location.href = '/quotations';
+      const response = await axios.post(
+        "https://invoicegenerator-ud0x.onrender.com/api/auth/login",
+        { email, password },
+      );
+      localStorage.setItem("token", response.data.token);
+      window.location.href = "/quotations";
     } catch (err) {
-      setError('Invalid credentials');
+      setError("Invalid credentials");
     }
   };
 

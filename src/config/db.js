@@ -16,7 +16,7 @@
 //     console.log("Connecting to MongoDB...");
 //     await client.connect();
 //     console.log("Connected to MongoDB");
-    
+
 //     const db = client.db("invoice-generator");
 
 //     // Check if the collection exists
@@ -34,15 +34,13 @@
 //   }
 // }
 
-
-
 // module.exports = connectDB;
 
+const mongoose = require("mongoose");
+const { MongoClient, ServerApiVersion } = require("mongodb");
 
-const mongoose = require('mongoose');
-const { MongoClient, ServerApiVersion } = require('mongodb');
-
-const uri = "mongodb+srv://admin:InvoiceGen@invoicegen.yk5e0du.mongodb.net/invoice-generator?retryWrites=true&w=majority&appName=InvoiceGen";
+const uri =
+  "mongodb+srv://admin:InvoiceGen@invoicegen.yk5e0du.mongodb.net/invoice-generator?retryWrites=true&w=majority&appName=InvoiceGen";
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -51,13 +49,16 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   },
   connectTimeoutMS: 30000,
-  socketTimeoutMS: 30000
+  socketTimeoutMS: 30000,
 });
 
 async function connectDB() {
   try {
     console.log("Connecting to MongoDB...");
-    await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log("Connected to MongoDB with Mongoose");
 
     // Check if the collection exists using MongoClient
