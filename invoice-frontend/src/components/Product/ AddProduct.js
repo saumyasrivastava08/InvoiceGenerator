@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./AddProduct.css"; // Import the CSS file
-import { useAuth } from "../../context/AuthContext";
 
 const AddProduct = () => {
-  const { user } = useAuth();
 
   const [products, setProducts] = useState([{ name: "", qty: "", rate: "" }]);
 
