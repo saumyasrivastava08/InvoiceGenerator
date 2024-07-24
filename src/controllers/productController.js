@@ -49,7 +49,7 @@ exports.addProducts = async (req, res) => {
       });
   
       // Generate PDF
-      const browser = await puppeteer.launch({ headless : true});
+      const browser = await puppeteer.launch({  executablePath: '/usr/bin/chromium-browser'});
       const page = await browser.newPage();
       await page.setContent(html);
       const filename = `Invoice_${Date.now()}.pdf`;
