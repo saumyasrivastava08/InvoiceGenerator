@@ -30,21 +30,8 @@ router.get('/download-pdf/:filename', authenticateToken, async (req, res) => {
       if (!quotation) {
         return res.status(404).json({ message: 'Quotation not found' });
       }
-  
-      const filepath = quotation.filePath;
-      const absoluteFilePath = path.resolve(filepath); // Get the absolute path
-      if (fs.existsSync(absoluteFilePath)) {
-        res.sendFile(absoluteFilePath, (err) => {
-          if (err) {
-            console.error('Error sending file:', err);
-            res.status(500).send('Error generating PDF');
-          } else {
-            console.log('PDF sent successfully');
-          }
-        });
-      } else {
-        res.status(404).send('File not found');
-      }
+      
+     downloadPDF(req,res)
     } catch (err) {
       console.error('Error downloading PDF:', err);
       res.status(500).send('Server error');

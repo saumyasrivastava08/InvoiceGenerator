@@ -29,6 +29,8 @@ RUN apt-get update && apt-get install -y \
   --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
+# Install Chromium
+RUN apt-get update && apt-get install -y chromium
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
