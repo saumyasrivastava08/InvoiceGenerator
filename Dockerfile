@@ -1,38 +1,37 @@
-# Use the official Node.js image
-FROM node:18
-
-# Set the working directory
-WORKDIR /app
-
-# Copy package.json and package-lock.json
-COPY package*.json ./
+FROM node:14
 
 # Install dependencies
-RUN npm install
-
-# Install additional dependencies for Puppeteer
 RUN apt-get update && apt-get install -y \
-    libnss3 \
-    libatk-bridge2.0-0 \
-    libgtk-3-0 \
-    libgbm-dev \
-    libpango-1.0-0 \
-    libcups2 \
-    libxkbcommon0 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxrandr2 \
-    libxshmfence1 \
-    libxss1 \
-    libxtst6 \
-    libasound2 \
-    && rm -rf /var/lib/apt/lists/*
+  wget \
+  ca-certificates \
+  fonts-liberation \
+  libappindicator3-1 \
+  libasound2 \
+  libatk-bridge2.0-0 \
+  libatk1.0-0 \
+  libcups2 \
+  libgdk-pixbuf2.0-0 \
+  libnspr4 \
+  libnss3 \
+  libx11-xcb1 \
+  libxcomposite1 \
+  libxdamage1 \
+  libxrandr2 \
+  libxshmfence1 \
+  libxtst6 \
+  libxv1 \
+  libxv1 \
+  lsb-release \
+  xdg-utils \
+  --no-install-recommends \
+  && rm -rf /var/lib/apt/lists/*
 
-# Copy the rest of the application code
-COPY . .
+# Install Puppeteer
+RUN npm install puppeteer
 
-# Expose the port the app runs on
-EXPOSE 5000
+# Add your application files
+COPY . /app
+WORKDIR /app
 
-# Command to run the application
-CMD ["npm", "start"]
+# Run Puppeteer with --no-sandbox
+CMD ["node", "your-script.js", "--no-sandbox"]
