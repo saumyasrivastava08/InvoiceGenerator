@@ -7,12 +7,12 @@ This is a full-stack web application for generating invoices. The backend is bui
 - User registration and login
 - Invoice creation and management
 - PDF generation of invoices
-- CI/CD pipeline for automatic image generation and deployment
-
+  
 ## Links
 
 - [Backend Deployment](https://invoicegenerator-ud0x.onrender.com)
 - [PostMan Collections](https://github.com/saumyasrivastava08/InvoiceGenerator/blob/master/Invoice%20Generator%20API.postman_collection.json)
+- [Frontend Deployment](https://master--invoicegeneratorfrontend.netlify.app/)
 
 ## Table of Contents
 
