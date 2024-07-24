@@ -3,8 +3,12 @@ const connectDB = require('./config/db'); // Ensure the path is correct
 const authRoutes = require('./routes/auth.js'); // Ensure the path is correct
 const productRoutes = require('./routes/productRoutes.js'); // Import your routes
 
+const cors = require('cors');
+
 
 const app = express();
+// CORS Middleware
+app.use(cors());
 
 app.use(express.json());
 
