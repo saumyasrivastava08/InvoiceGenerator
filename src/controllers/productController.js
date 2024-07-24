@@ -117,7 +117,7 @@ exports.listQuotations = async (req, res) => {
 // Function to download individual PDF
 exports.downloadPDF = async (req, res) => {
   console.log("downloadPDF endpoint hit");
-  const userId = req.user.id;
+  const userId = req.user.user.id;
   const { filename } = req.params;
 
   console.log("User ID:", userId);
