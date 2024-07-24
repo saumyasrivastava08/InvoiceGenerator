@@ -97,11 +97,9 @@ Make sure you have the following installed on your machine:
 - **Puppeteer**: Used for generating PDFs of invoices.
   - [Puppeteer](https://github.com/puppeteer/puppeteer)
   - Install Puppeteer: `npm install puppeteer`
+ 
+## Images
+   - [Response Through PostMan](https://github.com/saumyasrivastava08/InvoiceGenerator/tree/master/postmanResponseImages/)
+   - [Response Through Frontend React](https://github.com/saumyasrivastava08/InvoiceGenerator/tree/master/invoice-frontend/frontendResponseImg)
 
-## Contributing
 
-Feel free to submit issues or pull requests. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
